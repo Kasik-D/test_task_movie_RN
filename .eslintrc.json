@@ -1,0 +1,87 @@
+{
+  "plugins": [
+    "@typescript-eslint",
+    "simple-import-sort",
+    "import",
+    "react-native"
+  ],
+  "extends": [
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:react-native/all",
+    "plugin:prettier/recommended",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:unicorn/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "rules": {
+    "import/no-unresolved": "off",
+    "import/named": "off",
+    "import/first": "error",
+    "import/newline-after-import": "error",
+    "import/no-duplicates": "error",
+    "sort-imports": "off",
+    "import/order": "off",
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error",
+    "react-native/no-color-literals": "off",
+    "react-native/no-inline-styles": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/no-empty-function": "off",
+    "react-native/no-raw-text": "off",
+    "react/display-name": "off",
+    "react/prop-types": "off",
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ],
+    "import/prefer-default-export" : "off",
+    "unicorn/no-static-only-class" : "off",
+    "import/no-anonymous-default-export": ["error", { // no export default on bad caces
+        "allowArray": true,
+        "allowArrowFunction": false,
+        "allowAnonymousClass": false,
+        "allowAnonymousFunction": false,
+        "allowCallExpression": true, // The true value here is for backward compatibility
+        "allowLiteral": true,
+        "allowObject": true
+      }],
+    "react/function-component-definition": ["error", { // only arrow-function
+    "namedComponents": "arrow-function",
+    "unnamedComponents": "arrow-function"
+    }],
+    "unicorn/filename-case": [
+        "error",
+        {
+            "cases": {
+                "camelCase": true,
+                "pascalCase": true,
+                "kebabCase" : true
+            }
+        }
+    ],
+    "unicorn/no-object-as-default-parameter" : "off",
+    "unicorn/consistent-function-scoping" : "off",
+    "unicorn/prevent-abbreviations" : "off",
+    "implicit-arrow-linebreak" : "off",
+    "unicorn/no-null": "off",
+    "unicorn/prefer-export-from" : "off",
+    "unicorn/prefer-string-slice" : "off",
+    "unicorn/numeric-separators-style" : "off",
+    "object-curly-newline": ["error", {
+      "ObjectExpression": { "multiline": true, "minProperties": 1 },
+      "ObjectPattern": { "multiline": true },
+      "ImportDeclaration": { "multiline": true, "minProperties": 6 },
+      "ExportDeclaration": { "multiline": true, "minProperties": 3 }
+  }],
+    "@typescript-eslint/no-empty-interface" : "off"
+  },
+  "settings": {
+    "import/ignore": ["node_modules/react-native/index\\.js$","react-native"]
+  }
+}
