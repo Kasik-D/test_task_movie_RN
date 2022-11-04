@@ -4,7 +4,7 @@ import React from 'react';
 
 import { ROUTES } from '../constants';
 import { Login } from '../pages';
-import { AuthStackParamList } from '../types/navigations';
+import { AuthStackParamList } from '../types';
 
 const Stack = createNativeStackNavigator<AuthStackParamList>();
 

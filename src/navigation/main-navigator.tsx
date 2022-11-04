@@ -4,7 +4,7 @@ import React from 'react';
 
 import { ROUTES } from '../constants';
 import { Home } from '../pages';
-import { MainStackParamList } from '../types/navigations';
+import { MainStackParamList } from '../types';
 
 const Stack = createNativeStackNavigator<MainStackParamList>();
 

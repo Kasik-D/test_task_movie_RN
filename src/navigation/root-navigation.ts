@@ -1,7 +1,7 @@
 /* eslint-disable unicorn/filename-case */
 import { createNavigationContainerRef } from '@react-navigation/core';
 
-import { AllScreenParamList, RootStackParamList } from '../types/navigations';
+import { AllScreenParamList, RootStackParamList } from '../types';
 
 export const navigationRef = createNavigationContainerRef<RootStackParamList>();
 
