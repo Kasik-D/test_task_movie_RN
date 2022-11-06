@@ -2,6 +2,9 @@ import { ROUTES } from '../constants';
 
 export type MainStackParamList = {
   [ROUTES.home]: undefined;
+  [ROUTES.createMovie]: undefined;
+  [ROUTES.moviesList]: undefined;
+  [ROUTES.importMovie]: undefined;
 };
 
 export type AuthStackParamList = {
