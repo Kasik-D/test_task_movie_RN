@@ -6,6 +6,7 @@ export type MainStackParamList = {
 
 export type AuthStackParamList = {
   [ROUTES.login]: undefined;
+  [ROUTES.registration]: undefined;
 };
 
 // Here add your screens params

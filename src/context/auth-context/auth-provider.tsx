@@ -28,15 +28,6 @@ export const AuthProvider = ({ children }: Props) => {
   };
 
   const logout = async () => {
-    // const data = await logoutMutation({
-    //   variables: {
-    //     data: {
-    //       pushToken: {
-    //         ...getPushNotificationsData(),
-    //       },
-    //     },
-    //   },
-    // });
     await AsyncStore.deleteValue('token');
     handleLogout();
   };

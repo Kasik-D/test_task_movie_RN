@@ -1,7 +1,8 @@
 /* eslint-disable unicorn/prefer-module */
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Button, StyleSheet, Text, View } from 'react-native';
 
+import { useAuth } from '../../hooks';
 import { colors } from '../../theme';
 
 type Props = {
@@ -9,20 +10,34 @@ type Props = {
 };
 
 export const Header = ({ title = 'Movie App' }: Props) => {
+  const { onLogout } = useAuth();
+
   return (
-    <View style={style.container}>{title && <Text style={style.textTitle}>{title}</Text>}</View>
+    <View style={style.container}>
+      {title && <Text style={style.textTitle}>{title}</Text>}
+      <View style={style.buttonContainer}>
+        <Button onPress={onLogout} title='Logout' />
+      </View>
+    </View>
   );
 };
 
 const style = StyleSheet.create({
+  buttonContainer: {
+    position: 'absolute',
+    right: 0,
+    top: 0,
+  },
   container: {
     alignItems: 'center',
     backgroundColor: colors.while,
+    borderBottomWidth: 1,
     paddingHorizontal: 40,
     paddingVertical: 10,
+    position: 'relative',
   },
   textTitle: {
     color: colors.black,
-    fontSize: 14,
+    fontSize: 16,
   },
 });

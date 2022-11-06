@@ -8,45 +8,54 @@ import {
 
 import { Layout, TextField } from '../components';
 import { ROUTES } from '../constants';
-import { useLoginMutation } from '../hooks';
+import { useRegistrationMutation } from '../hooks';
 import { colors } from '../theme';
-import { loginSchema } from '../validation/schemas/login.schema';
+import { registrationSchema } from '../validation/schemas/registration.schema';
 
 type FormikValues = {
+  name: string;
   login: string;
   password: string;
+  confirmPassword: string;
 };
 
-export const Login = () => {
-  const { mutateAsync, isLoading } = useLoginMutation();
+export const Registration = () => {
+  const { mutateAsync, isLoading } = useRegistrationMutation();
 
   const navigation = useNavigation();
 
-  const onPressGoToRegistration = () => navigation.navigate(ROUTES.registration);
+  const onPressGoToLogin = () => navigation.navigate(ROUTES.login);
 
   const handleFormSubmit = async (values: FormikValues) => {
     Keyboard.dismiss();
     await mutateAsync({
+      name: values.name,
       email: values.login,
       password: values.password,
+      confirmPassword: values.confirmPassword,
     });
   };
 
   const initialValues = {
+    name: '',
     login: '',
     password: '',
+    confirmPassword: '',
   };
 
   return (
     <Layout isHeaderVisible={false}>
       <Formik
         onSubmit={handleFormSubmit}
-        validationSchema={loginSchema}
+        validationSchema={registrationSchema}
         initialValues={initialValues}
       >
         {({ handleSubmit }) => (
           <View style={styles.container}>
-            <Text style={styles.textLabel}>Login</Text>
+            <Text style={styles.textLabel}>Registration</Text>
+            <View style={styles.inputContainer}>
+              <TextField name='name' label='Name' placeholder={'Enter value'} />
+            </View>
             <View style={styles.inputContainer}>
               <TextField
                 name='login'
@@ -58,13 +67,13 @@ export const Login = () => {
               />
             </View>
             <View style={styles.inputContainer}>
+              <TextField name={'password'} placeholder={'Enter value'} label={'Password'} />
+            </View>
+            <View style={styles.inputContainer}>
               <TextField
-                name={'password'}
+                name={'confirmPassword'}
                 placeholder={'Enter value'}
-                label={'Password'}
-                inputProps={{
-                  secureTextEntry: true,
-                }}
+                label={'Confirm password'}
               />
             </View>
             <View style={styles.buttonContainer}>
@@ -79,10 +88,10 @@ export const Login = () => {
                 />
               )}
               <Button
-                accessibilityLabel='Sign up'
-                onPress={onPressGoToRegistration}
+                onPress={onPressGoToLogin}
+                accessibilityLabel='Login'
                 color={colors.blue}
-                title='Sign up'
+                title='Go to login'
               />
             </View>
           </View>

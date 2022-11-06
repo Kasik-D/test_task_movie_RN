@@ -2,7 +2,7 @@ import axios from 'axios';
 import create from 'zustand';
 
 import { DOMAIN_URL } from '../constants';
-import { LoginProps } from './../types/API/typesProps';
+import { LoginProps, RegistrationProps } from '../types';
 import { breakpoints } from './breakpoints';
 
 export const useErrorsStore = create(() => ({
@@ -33,6 +33,20 @@ export const login = async ({ email, password }: LoginProps) => {
   return await MyAppClient.post(breakpoints.sessions.login, {
     email,
     password,
+  });
+};
+
+export const registration = async ({
+  name,
+  email,
+  password,
+  confirmPassword,
+}: RegistrationProps) => {
+  return await MyAppClient.post(breakpoints.users.createUser, {
+    name,
+    email,
+    password,
+    confirmPassword,
   });
 };
 

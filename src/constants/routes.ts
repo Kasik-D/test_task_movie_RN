@@ -3,4 +3,5 @@ export enum ROUTES {
   mainNavigator = 'mainNavigator', // isAuth
   home = 'home',
   login = 'login',
+  registration = 'registration',
 }
