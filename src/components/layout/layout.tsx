@@ -3,6 +3,7 @@ import React, { LegacyRef } from 'react';
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from 'react-native';
 
 import { colors } from '../../theme';
+import { Header } from '../header/header';
 import { SafeAreaWrapper } from '../safe-area-wrapper/safe-area-wrapper';
 
 type Props = {
@@ -23,6 +24,7 @@ export const Layout = ({
   wrapperOptions,
   children,
   isKeyboardAvoiding,
+  isHeaderVisible = true,
   isScrollable = false,
   isTransparent = false,
   refScroll,
@@ -55,6 +57,7 @@ export const Layout = ({
           style={styles.layoutContainerStyle}
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         >
+          {isHeaderVisible ? <Header /> : null}
           {isScrollable ? (
             <ScrollView
               ref={refScroll}

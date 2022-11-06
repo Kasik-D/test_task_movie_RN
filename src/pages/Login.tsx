@@ -2,10 +2,11 @@ import { Formik } from 'formik';
 import React from 'react';
 // eslint-disable-next-line prettier/prettier
 import {
- Button, Keyboard, StyleSheet, Text, TextInput, View 
+ ActivityIndicator, Button, Keyboard, StyleSheet, Text, View 
 } from 'react-native';
 
 import { Layout, TextField } from '../components';
+import { useLoginMutation } from '../hooks';
 import { colors } from '../theme';
 import { loginSchema } from '../validation/schemas/login.schema';
 
@@ -15,8 +16,14 @@ type FormikValues = {
 };
 
 export const Login = () => {
+  const { mutateAsync, isLoading } = useLoginMutation();
+
   const handleFormSubmit = async (values: FormikValues) => {
     Keyboard.dismiss();
+    await mutateAsync({
+      email: values.login,
+      password: values.password,
+    });
   };
 
   const initialValues = {
@@ -25,7 +32,7 @@ export const Login = () => {
   };
 
   return (
-    <Layout>
+    <Layout isHeaderVisible={false}>
       <Formik
         onSubmit={handleFormSubmit}
         validationSchema={loginSchema}
@@ -43,8 +50,6 @@ export const Login = () => {
                   keyboardType: 'email-address',
                 }}
               />
-              {/* <Text>Email</Text>
-            <TextInput autoComplete='email' style={styles.textInput} /> */}
             </View>
             <View style={styles.inputContainer}>
               <TextField
@@ -55,16 +60,18 @@ export const Login = () => {
                   secureTextEntry: true,
                 }}
               />
-              {/* <Text>Password</Text>
-            <TextInput secureTextEntry={true} autoComplete='password' style={styles.textInput} /> */}
             </View>
             <View style={styles.buttonContainer}>
-              <Button
-                onPress={() => handleSubmit()}
-                accessibilityLabel='Submit'
-                color={colors.purple}
-                title='Submit'
-              />
+              {isLoading ? (
+                <ActivityIndicator animating={isLoading} />
+              ) : (
+                <Button
+                  onPress={() => handleSubmit()}
+                  accessibilityLabel='Submit'
+                  color={colors.purple}
+                  title='Submit'
+                />
+              )}
               <Button accessibilityLabel='Sign up' color={colors.blue} title='Sign up' />
             </View>
           </View>

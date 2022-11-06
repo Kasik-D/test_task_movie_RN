@@ -2,6 +2,7 @@ import axios from 'axios';
 import create from 'zustand';
 
 import { DOMAIN_URL } from '../constants';
+import { LoginProps } from './../types/API/typesProps';
 import { breakpoints } from './breakpoints';
 
 export const useErrorsStore = create(() => ({
@@ -16,13 +17,6 @@ const MyAppClient = axios.create({
 
 MyAppClient.interceptors.response.use(
   (response) => {
-    if (response.data.ErrorCode !== 0) {
-      useErrorsStore.setState({
-        hasError: true,
-        error: response.data.ErrorMessage,
-        date: Date.now(),
-      });
-    }
     return response;
   },
   (error) => {
@@ -35,6 +29,11 @@ MyAppClient.interceptors.response.use(
   },
 );
 
-export const myAPIRequest = async () => await MyAppClient.get(breakpoints.myAPIRequest());
+export const login = async ({ email, password }: LoginProps) => {
+  return await MyAppClient.post(breakpoints.sessions.login, {
+    email,
+    password,
+  });
+};
 
 export { MyAppClient };
