@@ -1,6 +1,26 @@
 export type MovieAPIParams = {
   limit?: number;
   offset?: number;
-  order?: 'ASK' | 'DESC';
-  sort?: string;
+  order?: SortingOrders;
+  sort?: Sort;
+  search?: string;
+};
+
+export enum SortingOrders {
+  Asc = 'ASC',
+  Desc = 'DESC',
+}
+export enum Sort {
+  id = 'id',
+  title = 'title',
+  yeat = 'yeat',
+}
+
+export type Movie = {
+  id: number;
+  title: string;
+  year: number;
+  format: string;
+  createdAt: string;
+  updatedAt: string;
 };

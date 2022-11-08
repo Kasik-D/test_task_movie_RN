@@ -1,21 +1,23 @@
 import { colors } from '../theme';
+import { navigationRef } from './../navigation/root-navigation';
+import { ROUTES } from './routes';
 
-export const DOMAIN_URL = 'http://192.168.1.100:8001/api/v1/';
+export const DOMAIN_URL = 'http://172.16.41.108:8001/api/v1/';
 
 export const HomeItems = [
   {
     backgroundColor: colors.purple,
     text: 'Create movie',
-    onPress: () => {},
+    onPress: () => navigationRef.navigate(ROUTES.createMovie),
   },
   {
     backgroundColor: colors.blue,
     text: 'Movie list',
-    onPress: () => {},
+    onPress: () => navigationRef.navigate(ROUTES.moviesList),
   },
   {
     backgroundColor: colors.teal,
     text: 'Import movie',
-    onPress: () => {},
+    onPress: () => navigationRef.navigate(ROUTES.importMovie),
   },
 ];

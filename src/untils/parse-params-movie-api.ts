@@ -13,7 +13,8 @@ export const parseParamsMovieAPI = (params: MovieAPIParams) => {
       param = param + `${key}=${params[key]}`;
       continue;
     }
-    if (key) {
+    // @ts-ignores
+    if (key && params[key]) {
       // @ts-ignores
       param = param + `&${key}=${params[key]}`;
     }

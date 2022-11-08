@@ -23,5 +23,6 @@ export const breakpoints = {
       return params ? `/movies${parseParamsMovieAPI(params)}` : `/movies`;
     },
     importMovie: '/movies/import',
+    baseUrl: '/movies',
   },
 };

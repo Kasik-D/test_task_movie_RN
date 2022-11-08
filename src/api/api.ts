@@ -1,8 +1,11 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import axios from 'axios';
 import create from 'zustand';
 
 import { DOMAIN_URL } from '../constants';
-import { LoginProps, RegistrationProps } from '../types';
+import { handleLogout } from '../context/auth-context';
+import { AsyncStore } from '../services';
+import { LoginProps, MovieAPIParams, RegistrationProps } from '../types';
 import { breakpoints } from './breakpoints';
 
 export const useErrorsStore = create(() => ({
@@ -15,8 +18,31 @@ const MyAppClient = axios.create({
   baseURL: DOMAIN_URL,
 });
 
+MyAppClient.interceptors.request.use(async (config: any) => {
+  try {
+    const token = await AsyncStore.getValue('token');
+    if (token) {
+      config.headers['Authorization'] = `${token}`;
+    }
+    return config;
+  } catch (error) {
+    useErrorsStore.setState({
+      hasError: true,
+      // @ts-ignores
+      error: error,
+      date: Date.now(),
+    });
+    await AsyncStore.deleteValue('token');
+    handleLogout();
+  }
+});
+
 MyAppClient.interceptors.response.use(
-  (response) => {
+  async (response) => {
+    if (response.data?.error?.code === 'WRONG_TOKEN') {
+      await AsyncStore.deleteValue('token');
+      handleLogout();
+    }
     return response;
   },
   (error) => {
@@ -48,6 +74,18 @@ export const registration = async ({
     password,
     confirmPassword,
   });
+};
+
+export const getMoviesList = async ({ limit, offset, order, sort, search }: MovieAPIParams) => {
+  return await MyAppClient.get(
+    breakpoints.movies.listMovies({
+      limit,
+      offset,
+      order,
+      sort,
+      search,
+    }),
+  );
 };
 
 export { MyAppClient };
