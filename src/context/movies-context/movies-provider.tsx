@@ -11,27 +11,29 @@ type IProps = {
 export const MoviesProvider: React.FC<IProps> = ({ children }) => {
   const stopHandleLoadMore = React.useRef(false);
 
-  const [handleLoadMoreLoading, setHandleLoadMoreLoading] = React.useState(false);
-
   const [refreshing, setRefreshing] = React.useState(false);
 
   const [search, setSearch] = React.useState('');
-  const [offset, setOffset] = React.useState(0);
   const [sort, setSort] = React.useState(Sort.id);
-  const [order, setOrder] = React.useState(SortingOrders.Asc);
+  const [order, setOrder] = React.useState(SortingOrders.Desc);
 
-  const { data, isLoading, refetch } = useMoviesListQuery({
-    limit: 10,
-    offset,
-    order,
-    sort,
-    search,
-  });
+  const { data, isLoading, refetch, error, fetchNextPage, isFetchingNextPage } = useMoviesListQuery(
+    {
+      limit: 10,
+      order,
+      sort,
+      search,
+    },
+  );
+
+  const handleOnSearchChange = (text: string) => setSearch(text);
 
   const handleLoadMore = async () => {
-    if (!stopHandleLoadMore.current) {
-      if ((data?.length || 0) < (data?.meta?.total || 0) && !handleLoadMoreLoading) {
-        setOffset(data?.length);
+    if (!stopHandleLoadMore.current && !isFetchingNextPage) {
+      if ((data?.pages?.length || 0) * 10 < (data?.pages[0]?.meta?.total || 0)) {
+        await fetchNextPage({
+          pageParam: (data?.pages?.length || 0) * 10,
+        });
       }
       stopHandleLoadMore.current = true;
     }
@@ -51,11 +53,15 @@ export const MoviesProvider: React.FC<IProps> = ({ children }) => {
   }, []);
 
   const value = {
-    movies: data?.data || [],
-    moviesCount: data?.data?.meta?.total || 0,
+    movies:
+      data?.pages?.reduce(
+        (previousValue, currentValue) => [...(previousValue || []), ...(currentValue?.data || [])],
+        [],
+      ) || [],
+    moviesCount: (data?.pages?.length || 0) * 10,
     loading: isLoading,
     handleLoadMore,
-    handleLoadMoreLoading,
+    handleLoadMoreLoading: isFetchingNextPage,
     stopHandleLoadMore: stopHandleLoadMore.current,
     setStopHandleLoadMore,
     refreshing,
@@ -63,6 +69,8 @@ export const MoviesProvider: React.FC<IProps> = ({ children }) => {
     setSearch,
     setSort,
     setOrder,
+    error,
+    handleOnSearchChange,
   };
 
   return <MoviesContext.Provider value={value}>{children}</MoviesContext.Provider>;

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Movie } from '../../types';
+import { Movie, Sort, SortingOrders } from '../../types';
 
 type ContextProps = {
   movies: Movie[];
@@ -12,6 +12,10 @@ type ContextProps = {
   setStopHandleLoadMore: (value: boolean) => void;
   refreshing: boolean;
   handleOnRefetch: () => Promise<void>;
+  handleOnSearchChange: (text: string) => void;
+  setOrder: React.Dispatch<React.SetStateAction<SortingOrders>>;
+  setSort: React.Dispatch<React.SetStateAction<Sort>>;
+  error: unknown;
 };
 
 export const MoviesContext = React.createContext<ContextProps>({
@@ -24,6 +28,10 @@ export const MoviesContext = React.createContext<ContextProps>({
   setStopHandleLoadMore: () => {},
   refreshing: false,
   handleOnRefetch: async () => {},
+  error: null,
+  handleOnSearchChange: () => {},
+  setOrder: () => {},
+  setSort: () => {},
 });
 
 export function useMoviesContext() {

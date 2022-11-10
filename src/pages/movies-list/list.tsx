@@ -1,6 +1,7 @@
 import React from 'react';
 import { ActivityIndicator, FlatList, StyleSheet, Text, View } from 'react-native';
 
+import { RequestHandler } from '../../components';
 import { useMovies } from '../../hooks';
 import { colors } from '../../theme';
 import { Movie } from '../../types';
@@ -14,6 +15,8 @@ export const List = () => {
     handleLoadMoreLoading,
     refreshing,
     handleOnRefetch,
+    loading,
+    error,
   } = useMovies();
 
   const onMomentumScrollBegin = () => setStopHandleLoadMore(false);
@@ -23,33 +26,38 @@ export const List = () => {
   const keyExtractor = React.useCallback((item: Movie) => String(item?.id), []);
 
   return (
-    <FlatList
-      contentContainerStyle={styles.contentContainerStyle}
-      data={movies}
-      renderItem={renderItem}
-      refreshing={refreshing}
-      onRefresh={handleOnRefetch}
-      keyExtractor={keyExtractor}
-      onEndReached={handleLoadMore}
-      onEndReachedThreshold={0.1}
-      onMomentumScrollBegin={onMomentumScrollBegin}
-      ListEmptyComponent={
-        <View style={styles.container}>
-          <Text>Empty data :(</Text>
-        </View>
-      }
-      ListFooterComponent={
-        handleLoadMoreLoading ? (
-          <View>
-            <ActivityIndicator size={'small'} color={colors.black} />
+    <RequestHandler loading={loading} error={error}>
+      <FlatList
+        contentContainerStyle={styles.contentContainerStyle}
+        data={movies}
+        renderItem={renderItem}
+        refreshing={refreshing}
+        onRefresh={handleOnRefetch}
+        keyExtractor={keyExtractor}
+        onEndReached={handleLoadMore}
+        onEndReachedThreshold={0.1}
+        onMomentumScrollBegin={onMomentumScrollBegin}
+        ListEmptyComponent={
+          <View style={styles.container}>
+            <Text>Empty data :(</Text>
           </View>
-        ) : null
-      }
-    />
+        }
+        ListFooterComponent={
+          handleLoadMoreLoading ? (
+            <View style={styles.bottomListContainer}>
+              <ActivityIndicator size={'small'} color={colors.black} />
+            </View>
+          ) : null
+        }
+      />
+    </RequestHandler>
   );
 };
 
 const styles = StyleSheet.create({
+  bottomListContainer: {
+    marginTop: 10,
+  },
   container: {
     alignItems: 'center',
     backgroundColor: '#fff',
@@ -58,6 +66,6 @@ const styles = StyleSheet.create({
   },
   contentContainerStyle: {
     flexGrow: 1,
-    paddingBottom: 130,
+    paddingBottom: 30,
   },
 });

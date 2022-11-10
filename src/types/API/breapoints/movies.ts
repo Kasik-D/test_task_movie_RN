@@ -13,7 +13,7 @@ export enum SortingOrders {
 export enum Sort {
   id = 'id',
   title = 'title',
-  yeat = 'yeat',
+  year = 'year',
 }
 
 export type Movie = {

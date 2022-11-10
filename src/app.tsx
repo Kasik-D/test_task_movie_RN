@@ -1,3 +1,4 @@
+import { ActionSheetProvider } from '@expo/react-native-action-sheet';
 import { registerRootComponent } from 'expo';
 import React from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
@@ -9,11 +10,13 @@ const queryClient = new QueryClient();
 
 const App = () => {
   return (
-    <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <NavigationProvider />
-      </AuthProvider>
-    </QueryClientProvider>
+    <ActionSheetProvider>
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <NavigationProvider />
+        </AuthProvider>
+      </QueryClientProvider>
+    </ActionSheetProvider>
   );
 };
 
