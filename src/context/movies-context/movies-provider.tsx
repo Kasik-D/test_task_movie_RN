@@ -26,13 +26,21 @@ export const MoviesProvider: React.FC<IProps> = ({ children }) => {
     },
   );
 
+  const getAllMovies =
+    data?.pages?.reduce(
+      (previousValue, currentValue) => [...(previousValue || []), ...(currentValue?.data || [])],
+      [],
+    ) || [];
+
+  const getAllMoviesCount = (data?.pages?.length || 0) * 10;
+
   const handleOnSearchChange = (text: string) => setSearch(text);
 
   const handleLoadMore = async () => {
     if (!stopHandleLoadMore.current && !isFetchingNextPage) {
-      if ((data?.pages?.length || 0) * 10 < (data?.pages[0]?.meta?.total || 0)) {
+      if (getAllMoviesCount < (data?.pages[0]?.meta?.total || 0)) {
         await fetchNextPage({
-          pageParam: (data?.pages?.length || 0) * 10,
+          pageParam: getAllMoviesCount,
         });
       }
       stopHandleLoadMore.current = true;
@@ -53,12 +61,8 @@ export const MoviesProvider: React.FC<IProps> = ({ children }) => {
   }, []);
 
   const value = {
-    movies:
-      data?.pages?.reduce(
-        (previousValue, currentValue) => [...(previousValue || []), ...(currentValue?.data || [])],
-        [],
-      ) || [],
-    moviesCount: (data?.pages?.length || 0) * 10,
+    movies: getAllMovies,
+    moviesCount: getAllMoviesCount,
     loading: isLoading,
     handleLoadMore,
     handleLoadMoreLoading: isFetchingNextPage,
