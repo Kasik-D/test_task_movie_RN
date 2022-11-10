@@ -5,7 +5,7 @@ import create from 'zustand';
 import { DOMAIN_URL } from '../constants';
 import { handleLogout } from '../context/auth-context';
 import { AsyncStore } from '../services';
-import { LoginProps, MovieAPIParams, RegistrationProps } from '../types';
+import { AddMovie, LoginProps, MovieAPIParams, RegistrationProps } from '../types';
 import { breakpoints } from './breakpoints';
 
 export const useErrorsStore = create(() => ({
@@ -86,6 +86,15 @@ export const getMoviesList = async ({ limit, offset, order, sort, search }: Movi
       search,
     }),
   );
+};
+
+export const addMovie = async ({ title, year, format, actors }: AddMovie) => {
+  return MyAppClient.post(breakpoints.movies.createMovie, {
+    title,
+    year,
+    format,
+    actors,
+  });
 };
 
 export { MyAppClient };

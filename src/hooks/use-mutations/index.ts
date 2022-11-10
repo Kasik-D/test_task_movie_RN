@@ -1,2 +1,3 @@
+export * from './use-add-movie-mutation';
 export * from './use-login-mutation';
 export * from './use-registration-mutation';

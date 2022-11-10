@@ -7,10 +7,18 @@ import { colors } from '../../theme';
 type Props = {
   value: string;
   onChangeText?: ((text: string) => void) | undefined;
+  placeholder?: string;
 };
 
-export const TextInput = ({ value = '', onChangeText }: Props) => {
-  return <TextInputRN style={styles.input} value={value} onChangeText={onChangeText} />;
+export const TextInput = ({ value = '', onChangeText, placeholder }: Props) => {
+  return (
+    <TextInputRN
+      style={styles.input}
+      value={value}
+      onChangeText={onChangeText}
+      placeholder={placeholder}
+    />
+  );
 };
 
 const styles = StyleSheet.create({

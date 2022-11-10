@@ -24,3 +24,10 @@ export type Movie = {
   createdAt: string;
   updatedAt: string;
 };
+
+export type AddMovie = {
+  title: string;
+  year: string | number;
+  format: string;
+  actors: string[];
+};

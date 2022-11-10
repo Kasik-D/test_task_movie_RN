@@ -73,7 +73,7 @@ export const TextField = ({
       {hasError && (
         <View
           style={{
-            height: 25,
+            height: 20,
           }}
           {...errorsWrapperProps}
         >

@@ -35,6 +35,7 @@ const style = StyleSheet.create({
     paddingHorizontal: 40,
     paddingVertical: 10,
     position: 'relative',
+    zIndex: 2,
   },
   textTitle: {
     color: colors.black,
