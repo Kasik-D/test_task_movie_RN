@@ -5,7 +5,14 @@ import create from 'zustand';
 import { DOMAIN_URL } from '../constants';
 import { handleLogout } from '../context/auth-context';
 import { AsyncStore } from '../services';
-import { AddMovie, LoginProps, MovieAPIParams, MovieIdType, RegistrationProps } from '../types';
+import {
+  AddMovie,
+  FileImport,
+  LoginProps,
+  MovieAPIParams,
+  MovieIdType,
+  RegistrationProps,
+} from '../types';
 import { breakpoints } from './breakpoints';
 
 export const useErrorsStore = create(() => ({
@@ -103,6 +110,12 @@ export const addMovie = async ({ title, year, format, actors }: AddMovie) => {
 
 export const deleteMovie = async ({ movieId }: MovieIdType) => {
   return MyAppClient.delete(breakpoints.movies.deleteMovie(movieId));
+};
+export const importMovie = async ({ file }: { file: FileImport }) => {
+  const formData = new FormData();
+  // @ts-ignore
+  formData.append('movies', file);
+  return MyAppClient.post(breakpoints.movies.importMovie, formData);
 };
 
 export { MyAppClient };

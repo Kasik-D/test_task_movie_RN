@@ -42,3 +42,14 @@ export type AddMovie = {
 export type MovieIdType = {
   movieId: string | number;
 };
+
+export type FileImport = {
+  type: 'success';
+  name: string;
+  size?: number | undefined;
+  uri: string;
+  mimeType?: string | undefined;
+  lastModified?: number | undefined;
+  file?: File | undefined;
+  output?: FileList | null | undefined;
+};
