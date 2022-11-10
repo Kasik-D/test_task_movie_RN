@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 
 import { Layout } from '../../components';
-import { useAddMuvieMutation } from '../../hooks';
+import { useAddMuvieMutation, useAlertMessage } from '../../hooks';
 import { colors } from '../../theme';
 import { AddMovie } from '../../types';
 import { addMovieSchema } from '../../validation/schemas/add-movie.schema';
@@ -20,6 +20,8 @@ export const CreateMovie = () => {
 
   const [error, setError] = React.useState('');
   const [success, setSuccess] = React.useState(false);
+
+  const { alertMessage } = useAlertMessage();
 
   const handleFormSubmit = async (values: AddMovie) => {
     Keyboard.dismiss();
@@ -38,7 +40,10 @@ export const CreateMovie = () => {
     if (success) {
       setTimeout(() => {
         setSuccess(false);
-      }, 3000);
+        alertMessage({
+          title: 'Movie successfully added',
+        });
+      }, 5000);
     }
   }, [success]);
 
