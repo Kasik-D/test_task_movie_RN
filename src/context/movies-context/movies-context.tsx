@@ -1,4 +1,11 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from 'react';
+import {
+  InfiniteData,
+  QueryObserverResult,
+  RefetchOptions,
+  RefetchQueryFilters,
+} from 'react-query';
 
 import { Movie, Sort, SortingOrders } from '../../types';
 
@@ -16,6 +23,9 @@ type ContextProps = {
   setOrder: React.Dispatch<React.SetStateAction<SortingOrders>>;
   setSort: React.Dispatch<React.SetStateAction<Sort>>;
   error: unknown;
+  refetchAllMovie: <TPageData>(
+    options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined,
+  ) => Promise<QueryObserverResult<InfiniteData<any>, unknown>>;
 };
 
 export const MoviesContext = React.createContext<ContextProps>({
@@ -32,6 +42,8 @@ export const MoviesContext = React.createContext<ContextProps>({
   handleOnSearchChange: () => {},
   setOrder: () => {},
   setSort: () => {},
+  // @ts-ignore
+  refetchAllMovie: async () => {},
 });
 
 export function useMoviesContext() {

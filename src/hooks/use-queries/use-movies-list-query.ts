@@ -1,4 +1,4 @@
-import { useInfiniteQuery, useQuery } from 'react-query';
+import { useInfiniteQuery } from 'react-query';
 
 import { breakpoints, getMoviesList } from '../../api';
 import { MovieAPIParams } from '../../types';

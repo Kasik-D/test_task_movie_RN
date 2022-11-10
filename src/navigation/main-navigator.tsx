@@ -3,7 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 
 import { ROUTES } from '../constants';
-import { CreateMovie, Home, ImportMovie, MoviesList } from '../pages';
+import { CreateMovie, Home, ImportMovie, Movie, MoviesList } from '../pages';
 import { MainStackParamList } from '../types';
 
 const Stack = createNativeStackNavigator<MainStackParamList>();
@@ -20,6 +20,7 @@ export const MainNavigator = () => {
       <Stack.Screen name={ROUTES.createMovie} component={CreateMovie} />
       <Stack.Screen name={ROUTES.moviesList} component={MoviesList} />
       <Stack.Screen name={ROUTES.importMovie} component={ImportMovie} />
+      <Stack.Screen name={ROUTES.movie} component={Movie} />
     </Stack.Navigator>
   );
 };

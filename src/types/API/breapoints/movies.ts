@@ -25,9 +25,20 @@ export type Movie = {
   updatedAt: string;
 };
 
+export type Actor = {
+  id: number;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
 export type AddMovie = {
   title: string;
   year: string | number;
   format: string;
   actors: string[];
+};
+
+export type MovieIdType = {
+  movieId: string | number;
 };

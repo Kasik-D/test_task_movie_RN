@@ -1,3 +1,9 @@
+import {
+  InfiniteData,
+  QueryObserverResult,
+  RefetchOptions,
+  RefetchQueryFilters,
+} from 'react-query';
 import { ROUTES } from '../constants';
 
 export type MainStackParamList = {
@@ -5,6 +11,12 @@ export type MainStackParamList = {
   [ROUTES.createMovie]: undefined;
   [ROUTES.moviesList]: undefined;
   [ROUTES.importMovie]: undefined;
+  [ROUTES.movie]: {
+    movieId: string | number;
+    refetchAllMovie: <TPageData>(
+      options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined,
+    ) => Promise<QueryObserverResult<InfiniteData<any>, unknown>>;
+  };
 };
 
 export type AuthStackParamList = {

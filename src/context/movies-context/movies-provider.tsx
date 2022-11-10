@@ -71,6 +71,7 @@ export const MoviesProvider: React.FC<IProps> = ({ children }) => {
     refreshing,
     handleOnRefetch,
     setSearch,
+    refetchAllMovie: refetch,
     setSort,
     setOrder,
     error,

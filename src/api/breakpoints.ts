@@ -10,13 +10,13 @@ export const breakpoints = {
   },
   movies: {
     createMovie: '/movies',
-    deleteMovie: (id: string) => {
+    deleteMovie: (id: string | number) => {
       return `/movies/${id}`;
     },
     updateMovie: (id: string) => {
       return `/movies/${id}`;
     },
-    showMovie: (id: string) => {
+    showMovie: (id: string | number) => {
       return `/movies/${id}`;
     },
     listMovies: (params: MovieAPIParams) => {

@@ -7,4 +7,5 @@ export enum ROUTES {
   createMovie = 'createMovie',
   moviesList = 'moviesList',
   importMovie = 'importMovie',
+  movie = 'movie',
 }

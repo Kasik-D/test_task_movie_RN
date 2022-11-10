@@ -5,7 +5,7 @@ import create from 'zustand';
 import { DOMAIN_URL } from '../constants';
 import { handleLogout } from '../context/auth-context';
 import { AsyncStore } from '../services';
-import { AddMovie, LoginProps, MovieAPIParams, RegistrationProps } from '../types';
+import { AddMovie, LoginProps, MovieAPIParams, MovieIdType, RegistrationProps } from '../types';
 import { breakpoints } from './breakpoints';
 
 export const useErrorsStore = create(() => ({
@@ -88,6 +88,10 @@ export const getMoviesList = async ({ limit, offset, order, sort, search }: Movi
   );
 };
 
+export const getMovie = async ({ movieId }: MovieIdType) => {
+  return await MyAppClient.get(breakpoints.movies.showMovie(movieId));
+};
+
 export const addMovie = async ({ title, year, format, actors }: AddMovie) => {
   return MyAppClient.post(breakpoints.movies.createMovie, {
     title,
@@ -95,6 +99,10 @@ export const addMovie = async ({ title, year, format, actors }: AddMovie) => {
     format,
     actors,
   });
+};
+
+export const deleteMovie = async ({ movieId }: MovieIdType) => {
+  return MyAppClient.delete(breakpoints.movies.deleteMovie(movieId));
 };
 
 export { MyAppClient };
