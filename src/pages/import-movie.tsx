@@ -15,13 +15,14 @@ export const ImportMovie = () => {
   const onImportFile = async () => {
     const file = await pickFile();
     if (file) {
-      const res = await mutateAsync({
-        file,
-      });
-
-      if (res.data?.status) {
+      // eslint-disable-next-line unicorn/no-lonely-if
+      if (file.mimeType === 'text/plain') {
+        await mutateAsync({
+          file,
+        });
+      } else {
         alertMessage({
-          title: 'File uploaded successfully',
+          title: 'The file must be in txt format',
         });
       }
     }

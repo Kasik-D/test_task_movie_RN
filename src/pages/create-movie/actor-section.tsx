@@ -1,23 +1,25 @@
-import { FormikErrors } from 'formik';
+import { useField } from 'formik';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import { colors } from '../../theme';
-import { AddMovie } from '../../types';
 
 type Props = {
-  values: AddMovie;
-  errors: FormikErrors<AddMovie>;
+  name: string;
 };
 
-export const ActorsSection = ({ errors, values }: Props) => {
+export const ActorsSection = ({ name }: Props) => {
+  const [field, meta] = useField(name);
+
+  const hasError = Boolean(meta.error && meta.touched);
+
   return (
     <>
       <View
         style={[
           styles.actorsContainer,
           {
-            borderColor: errors.actors ? colors.red : colors.black,
+            borderColor: hasError ? colors.red : colors.black,
           },
         ]}
       >
@@ -29,7 +31,7 @@ export const ActorsSection = ({ errors, values }: Props) => {
           Actors names:
         </Text>
         <View style={styles.actorContainer}>
-          {values.actors.map((item, index) => {
+          {field.value.map((item: string, index: number) => {
             return (
               <Text style={styles.actorName} key={index}>
                 {item}
@@ -39,9 +41,9 @@ export const ActorsSection = ({ errors, values }: Props) => {
         </View>
       </View>
 
-      {errors.actors && (
+      {hasError && (
         <View style={styles.errorContainer}>
-          <Text style={styles.errorText}>{errors.actors}</Text>
+          <Text style={styles.errorText}>{meta.error}</Text>
         </View>
       )}
     </>

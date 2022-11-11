@@ -9,6 +9,7 @@ import { Layout } from '../../components';
 import { useAddMuvieMutation, useAlertMessage } from '../../hooks';
 import { colors } from '../../theme';
 import { AddMovie } from '../../types';
+import { getErrorMessageCode, getErrorMessageFields } from '../../untils';
 import { addMovieSchema } from '../../validation/schemas/add-movie.schema';
 import { ActorsSection } from './actor-section';
 import { AddActorInput } from './add-actor-input';
@@ -32,7 +33,14 @@ export const CreateMovie = () => {
       setError('');
       setSuccess(true);
     } else {
-      setError(response.data?.error?.code + ' ' + (response.data?.error?.fields?.format || ''));
+      alertMessage({
+        title: getErrorMessageCode(response.data?.error?.code),
+        message: getErrorMessageFields(response.data?.error?.fields),
+      });
+      setError(
+        getErrorMessageCode(response.data?.error?.code) +
+          getErrorMessageFields(response.data?.error?.fields),
+      );
     }
   };
 
@@ -40,10 +48,10 @@ export const CreateMovie = () => {
     if (success) {
       setTimeout(() => {
         setSuccess(false);
-        alertMessage({
-          title: 'Movie successfully added',
-        });
       }, 5000);
+      alertMessage({
+        title: 'Movie successfully added',
+      });
     }
   }, [success]);
 
@@ -61,15 +69,15 @@ export const CreateMovie = () => {
         validationSchema={addMovieSchema}
         initialValues={initialValues}
       >
-        {({ handleSubmit, values, setFieldValue, errors }) => (
+        {({ handleSubmit }) => (
           <View style={styles.container}>
             {success && <Text style={styles.successText}>Movie successfully added</Text>}
 
             <InputsMovie />
 
-            <ActorsSection values={values} errors={errors} />
+            <ActorsSection name='actors' />
 
-            <AddActorInput values={values} setFieldValue={setFieldValue} />
+            <AddActorInput name='actors' />
 
             {error && <ApiErrorText error={error} />}
 
