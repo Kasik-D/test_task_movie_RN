@@ -1,3 +1,4 @@
+export * from './api-error-text/api-error-text';
 export * from './header/header';
 export * from './icons';
 export * from './input/input';

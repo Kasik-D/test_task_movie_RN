@@ -5,22 +5,21 @@ import {
  ActivityIndicator, Button, Keyboard, StyleSheet, Text, View 
 } from 'react-native';
 
-import { Layout } from '../../components';
-import { useAddMuvieMutation, useAlertMessage } from '../../hooks';
+import { ApiErrorText, Layout } from '../../components';
+import { useAddMuvieMutation, useAlertMessage, useApiErrors } from '../../hooks';
 import { colors } from '../../theme';
 import { AddMovie } from '../../types';
-import { getErrorMessageCode, getErrorMessageFields } from '../../untils';
 import { addMovieSchema } from '../../validation/schemas/add-movie.schema';
 import { ActorsSection } from './actor-section';
 import { AddActorInput } from './add-actor-input';
-import { ApiErrorText } from './api-error-text';
 import { InputsMovie } from './inputs-movie';
 
 export const CreateMovie = () => {
   const { mutateAsync, isLoading } = useAddMuvieMutation();
 
-  const [error, setError] = React.useState('');
   const [success, setSuccess] = React.useState(false);
+
+  const { errors, handleSetErrors, resetErrors } = useApiErrors();
 
   const { alertMessage } = useAlertMessage();
 
@@ -30,17 +29,10 @@ export const CreateMovie = () => {
       ...values,
     });
     if (response.data?.status) {
-      setError('');
+      resetErrors();
       setSuccess(true);
     } else {
-      alertMessage({
-        title: getErrorMessageCode(response.data?.error?.code),
-        message: getErrorMessageFields(response.data?.error?.fields),
-      });
-      setError(
-        getErrorMessageCode(response.data?.error?.code) +
-          getErrorMessageFields(response.data?.error?.fields),
-      );
+      handleSetErrors(response);
     }
   };
 
@@ -79,7 +71,7 @@ export const CreateMovie = () => {
 
             <AddActorInput name='actors' />
 
-            {error && <ApiErrorText error={error} />}
+            {errors && <ApiErrorText error={errors} />}
 
             <View style={styles.buttonContainer}>
               {isLoading ? (

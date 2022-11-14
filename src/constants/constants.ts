@@ -2,7 +2,7 @@ import { colors } from '../theme';
 import { navigationRef } from './../navigation/root-navigation';
 import { ROUTES } from './routes';
 
-export const DOMAIN_URL = 'http://172.16.41.34:8001/api/v1/';
+export const DOMAIN_URL = 'http://172.16.41.41:8001/api/v1/';
 
 export const HomeItems = [
   {

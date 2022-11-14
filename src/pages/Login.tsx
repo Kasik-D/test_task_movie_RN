@@ -6,9 +6,9 @@ import {
  ActivityIndicator, Button, Keyboard, StyleSheet, Text, View 
 } from 'react-native';
 
-import { Layout, TextField } from '../components';
+import { ApiErrorText, Layout, TextField } from '../components';
 import { ROUTES } from '../constants';
-import { useLoginMutation } from '../hooks';
+import { useApiErrors, useLoginMutation } from '../hooks';
 import { colors } from '../theme';
 import { loginSchema } from '../validation/schemas/login.schema';
 
@@ -22,14 +22,21 @@ export const Login = () => {
 
   const navigation = useNavigation();
 
+  const { errors, handleSetErrors, resetErrors } = useApiErrors();
+
   const onPressGoToRegistration = () => navigation.navigate(ROUTES.registration);
 
   const handleFormSubmit = async (values: FormikValues) => {
     Keyboard.dismiss();
-    await mutateAsync({
+    const response = await mutateAsync({
       email: values.login,
       password: values.password,
     });
+    if (response.data?.status) {
+      resetErrors();
+    } else {
+      handleSetErrors(response);
+    }
   };
 
   const initialValues = {
@@ -48,6 +55,7 @@ export const Login = () => {
           <View style={styles.container}>
             <Text style={styles.textLabel}>Login</Text>
             <View style={styles.inputContainer}>
+              {errors && <ApiErrorText error={errors} />}
               <TextField
                 name='login'
                 label='Email'
