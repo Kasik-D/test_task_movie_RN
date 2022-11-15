@@ -2,11 +2,17 @@ import { RouteProp, useNavigation, useRoute } from '@react-navigation/core';
 import React from 'react';
 import { ActivityIndicator, Button, StyleSheet, Text, View } from 'react-native';
 
-import { Layout, RequestHandler } from '../components';
+import { Layout, Menu, RequestHandler } from '../components';
 import { ROUTES } from '../constants';
-import { useDeleteMuvieMutation, useMovieQuery } from '../hooks';
+import {
+  useAlertMessage,
+  useDeleteMuvieMutation,
+  useGetMenuOptionsForDeleteMovie,
+  useMovieQuery,
+} from '../hooks';
 import { colors } from '../theme';
-import { Actor, MainStackParamList } from '../types';
+import { MainStackParamList } from '../types';
+import { getMovieActors } from '../untils';
 
 type RouteType = RouteProp<MainStackParamList, ROUTES.movie>;
 
@@ -15,6 +21,8 @@ export const Movie = () => {
   const route = useRoute<RouteType>();
   const movieId = route.params.movieId;
   const refetchAllMovie = route.params.refetchAllMovie;
+
+  const { alertMessage } = useAlertMessage();
 
   const { data, isLoading } = useMovieQuery({
     movieId,
@@ -29,9 +37,17 @@ export const Movie = () => {
     });
     if (response.data?.status) {
       await refetchAllMovie();
+      alertMessage({
+        title: `Movie ${data?.data?.data?.title} deleted`,
+      });
       navigation.goBack();
     }
   };
+
+  const { optionsForDeleteMovie, onButtonPressOptionsDeleteMovie } =
+    useGetMenuOptionsForDeleteMovie({
+      onDeleteCallback: onClickDelete,
+    });
 
   return (
     <Layout>
@@ -44,21 +60,24 @@ export const Movie = () => {
             <Text style={styles.informationText}>Format: {data?.data?.data?.format}</Text>
             <Text style={styles.informationText}>
               Actors:
-              {data?.data?.data?.actors?.reduce(
-                (previousValue: string, currentValue: Actor, index: number) => {
-                  return index !== data?.data?.data?.actors?.length && index !== 0
-                    ? previousValue + ', ' + currentValue?.name
-                    : previousValue + ' ' + currentValue?.name;
-                },
-                ' ',
-              )}
+              {getMovieActors(data?.data?.data?.actors)}
             </Text>
           </View>
           <View style={styles.buttonContainer}>
             {isLoadingDelete ? (
               <ActivityIndicator animating={isLoadingDelete} />
             ) : (
-              <Button title='Delete movie' color={colors.red} onPress={onClickDelete} />
+              <Menu
+                options={{
+                  options: optionsForDeleteMovie,
+                  cancelButtonIndex: optionsForDeleteMovie.length - 1,
+                }}
+                title='Delete movie'
+                onButtonPress={onButtonPressOptionsDeleteMovie}
+                buttonProps={{
+                  color: colors.red,
+                }}
+              />
             )}
           </View>
         </View>
