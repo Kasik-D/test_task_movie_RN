@@ -8,7 +8,7 @@ import { ROUTES } from '../constants';
 
 export type MainStackParamList = {
   [ROUTES.home]: undefined;
-  [ROUTES.createMovie]: undefined;
+  [ROUTES.createSimpleMovie]: undefined;
   [ROUTES.moviesList]: undefined;
   [ROUTES.importMovie]: undefined;
   [ROUTES.movie]: {

@@ -1,4 +1,5 @@
 export * from './api-error-text/api-error-text';
+export * from './create-movie/create-movie';
 export * from './header/header';
 export * from './icons';
 export * from './input/input';

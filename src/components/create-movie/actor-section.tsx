@@ -4,12 +4,8 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import { colors } from '../../theme';
 
-type Props = {
-  name: string;
-};
-
-export const ActorsSection = ({ name }: Props) => {
-  const [field, meta] = useField(name);
+export const ActorsSection = () => {
+  const [field, meta] = useField('actors');
 
   const hasError = Boolean(meta.error && meta.touched);
 

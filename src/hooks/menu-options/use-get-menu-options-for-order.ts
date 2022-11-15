@@ -1,5 +1,5 @@
-import { SortingOrders } from '../types';
-import { useMovies } from '.';
+import { SortingOrders } from '../../types';
+import { useMovies } from '..';
 
 export const useGetMenuOptionsForOrder = () => {
   const { setOrder } = useMovies();

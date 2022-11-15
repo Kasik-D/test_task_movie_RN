@@ -20,7 +20,7 @@ export type Movie = {
   id: number;
   title: string;
   year: number;
-  format: string;
+  format: MovieFormats;
   createdAt: string;
   updatedAt: string;
 };
@@ -35,7 +35,7 @@ export type Actor = {
 export type AddMovie = {
   title: string;
   year: string | number;
-  format: string;
+  format: MovieFormats;
   actors: string[];
 };
 
@@ -53,3 +53,9 @@ export type FileImport = {
   file?: File | undefined;
   output?: FileList | null | undefined;
 };
+
+export enum MovieFormats {
+  VHS = 'VHS',
+  DVD = 'DVD',
+  BluRay = 'Blu-ray',
+}
